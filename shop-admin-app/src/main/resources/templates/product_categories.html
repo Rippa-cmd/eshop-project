@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="fragments/default_headers :: default_head"></head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light" th:replace="fragments/default_headers :: default_nav"></nav>
+
+<div class="container">
+    <div class="row py-2">
+        <div class="col-12" sec:authorize="hasAnyRole('SUPER_ADMIN')">
+            <a class="btn btn-primary" th:href="@{/category/new}">Add Product Category</a>
+        </div>
+
+        <div class="col-12 mt-3">
+            <form class="form-inline" th:method="get">
+                <div class="form-group mb-2 mr-2">
+                    <label for="productCategoryNameFilter" class="sr-only">Product category name filter</label>
+                    <input type="text" class="form-control" id="productCategoryNameFilter" th:value="${param.productCategoryNameFilter}"
+                           name="productCategoryNameFilter" placeholder="Product category name filter">
+                </div>
+                <button type="submit" class="btn btn-primary mb-2">Apply</button>
+            </form>
+        </div>
+
+        <div class="col-12">
+            <table class="table table-bordered my-2">
+                <thead>
+                <tr>
+                    <th scope="col" th:replace="fragments/sort_headers :: product_category_sort_header('Id', 'id')"></th>
+                    <th scope="col" th:replace="fragments/sort_headers :: product_category_sort_header('Name', 'name')"></th>
+                    <th scope="col" th:replace="fragments/sort_headers :: product_category_sort_header('Products count', 'count')"></th>
+                    <th scope="col" sec:authorize="hasAnyRole('SUPER_ADMIN')">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${categories.hasContent()}" th:each="category : ${categories.content}">
+                    <th scope="row" th:text="${category.id}">1</th>
+                    <td>
+                        <a th:href="@{/product(categoryFilter=${category.name})}" th:text="${category.name}">Shoes</a>
+                    </td>
+                    <td><span th:text="${#lists.size(category.products)}"/></td>
+                    <td sec:authorize="hasAnyRole('SUPER_ADMIN')">
+                        <a class="btn btn-success" th:href="@{/category/{id}(id = ${category.id})}"><i
+                                class="fas fa-edit"></i></a>
+                        <a class="btn btn-danger" th:href="@{/category/delete_{id}(id = ${category.id})}"><i
+                                class="far fa-trash-alt"></i></a>
+                    </td>
+                </tr>
+
+                <tr th:unless="${categories.hasContent()}">
+                    <td colspan="4">No product categories</td>
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-12">
+            <nav th:if="${categories.hasContent()}" aria-label="...">
+                <ul class="pagination ">
+                    <li th:classappend="${!categories.hasPrevious()} ? 'disabled'" class="page-item">
+                        <a class="page-link" th:href="@{/category(page=${categories.number}, size=${categories.size},
+                            productCategoryNameFilter=${param.productCategoryNameFilter},
+                            sortField=${param.sortField},
+                            sortDirection=${param.sortDirection})}" tabindex="-1">Previous</a>
+                    </li>
+
+                    <li th:each="num : ${#numbers.sequence(1, categories.totalPages)}"
+                        th:classappend="${num == categories.number + 1} ? 'active'" class="page-item">
+                        <a class="page-link"
+                           th:text="${num}"
+                           th:href="@{/category(page=${num}, size=${categories.size},
+                           productCategoryNameFilter=${param.productCategoryNameFilter},
+                           sortField=${param.sortField},
+                           sortDirection=${param.sortDirection})}">1</a>
+                    </li>
+
+                    <li th:classappend="${!categories.hasNext()} ? 'disabled'" class="page-item">
+                        <a class="page-link" th:href="@{/category(page=${categories.number + 2}, size=${categories.size},
+                            productCategoryNameFilter=${param.productCategoryNameFilter},
+                            sortField=${param.sortField},
+                            sortDirection=${param.sortDirection})}">Next</a>
+                    </li>
+                </ul>
+                <form class="form-inline" th:method="get">
+                    <div class="form-group mb-2 mr-2">
+                        <label for="size" class="sr-only">Size of page</label>
+                        <input type="number" class="form-control" id="size"
+                               th:value="${param.size}"
+                               name="size" placeholder="Page size">
+
+                        <a class="btn btn-primary" th:href="@{/category(page=1, size=${categories.getTotalElements()},
+                            productCategoryNameFilter=${param.productCategoryNameFilter},
+                            sortField=${param.sortField},
+                            sortDirection=${param.sortDirection})}">All product categories</a>
+                    </div>
+                </form>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<th:block th:replace="fragments/default_headers :: default_scripts"></th:block>
+
+</body>
+</html>

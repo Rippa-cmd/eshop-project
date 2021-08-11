@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/default_headers :: default_head"></head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light" th:replace="fragments/default_headers :: default_nav"></nav>
+
+<div class="container">
+    <div class="row py-2">
+        <div class="col-12">
+            <form th:action="@{/product}" method="post" th:object="${product}">
+                <input type="hidden" id="id" th:field="*{id}">
+                <div class="form-group">
+                    <label>Product name</label>
+                    <input type="text" class="form-control" id="name" th:field="*{name}"
+                           placeholder="Enter product name">
+                    <p class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+                </div>
+                <div class="form-group">
+                    <label>Cost</label>
+                    <input type="number" step=".01" class="form-control" id="cost" th:field="*{cost}"
+                           placeholder="Enter product cost">
+                    <p class="text-danger" th:if="${#fields.hasErrors('cost')}" th:errors="*{cost}"></p>
+                </div>
+                <div class="form-group">
+                    <label for="categories">Categories</label>
+                    <select multiple class="form-control" id="categories" th:field="*{categories}">
+                        <option value="">No category</option>
+                        <option th:each="category : ${categories}"
+                                th:text="${category.name}"
+                                th:value="${category.id}"
+                                th:selected="${product.categories?.contains(category)}"></option>
+                    </select>
+<!--                        <select th:field="*{categories}">-->
+<!--                            <option value=""> &#45;&#45; </option>-->
+<!--                            <option th:each="category : ${categories}"-->
+<!--                                    th:value="${category.id}"-->
+<!--                                    th:utext="${category.name}"-->
+<!--                                    th:selected="${product.categories?.contains(category)}"/>-->
+<!--                        </select>-->
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <a class="btn btn-danger" th:href="@{/product}">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<th:block th:replace="fragments/default_headers :: default_scripts"></th:block>
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/default_headers :: default_head"></head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light" th:replace="fragments/default_headers :: default_nav"></nav>
+
+<div class="container">
+    <div class="row py-2">
+        <div class="col-12">
+            <div>
+                <label>Are you sure want to delete this product?</label>
+                <th type="text" id="name" th:text="${product.name}"></th>
+            </div>
+            <a type="submit" class="btn btn-primary"
+               th:href="@{/product/confirmed_deletion(id = ${product.id})}">Submit</a>
+            <a class="btn btn-danger" th:href="@{/product}">Cancel</a>
+        </div>
+    </div>
+</div>
+
+<th:block th:replace="fragments/default_headers :: default_scripts"></th:block>
+
+</body>
+</html>
