@@ -14,7 +14,7 @@
                 <th:block th:replace="fragments/default_user_form :: default_user_form"></th:block>
 
                 <div class="form-group">
-                    <label for="roles">Roles</label>
+                    <label for="roles">Roles *</label>
                     <select multiple class="form-control" id="roles" th:field="*{roles}" required>
                         <option th:each="role : ${roles}"
                                 th:text="${role.name}"
@@ -22,6 +22,8 @@
                                 th:selected="${userDto.roles?.contains(role)}"></option>
                     </select>
                 </div>
+
+                <div class="form-group">* - required fields</div>
 
                 <button type="submit" class="btn btn-primary">Submit</button>
                 <a class="btn btn-danger" th:href="@{/user}">Cancel</a>

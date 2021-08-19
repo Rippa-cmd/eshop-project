@@ -1,11 +1,8 @@
-package ru.geekbrains.persist;
+package ru.geekbrains.persist.model;
 
 import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -17,12 +14,9 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
     @Column(nullable = false)
     private String name;
 
-    @PositiveOrZero
-    @NotNull
     @Column(nullable = false)
     private BigDecimal cost;
 
@@ -32,6 +26,9 @@ public class Product {
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     @BatchSize(size = 256)
     private List<ProductCategory> categories;
+
+    @ManyToOne
+    private Brand brand;
 
     public Product() {
     }
@@ -71,5 +68,13 @@ public class Product {
 
     public void setCategories(List<ProductCategory> categories) {
         this.categories = categories;
+    }
+
+    public Brand getBrand() {
+        return brand;
+    }
+
+    public void setBrand(Brand brand) {
+        this.brand = brand;
     }
 }

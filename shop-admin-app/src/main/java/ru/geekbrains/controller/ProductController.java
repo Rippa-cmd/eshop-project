@@ -9,13 +9,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import ru.geekbrains.persist.Product;
+import ru.geekbrains.persist.BrandRepository;
+import ru.geekbrains.persist.model.Product;
 import ru.geekbrains.service.ProductCategoryService;
 import ru.geekbrains.service.ProductSearchFilters;
 import ru.geekbrains.service.ProductService;
 
 import javax.validation.Valid;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/product")
@@ -27,10 +27,13 @@ public class ProductController {
 
     private final ProductCategoryService productCategoryService;
 
+    private final BrandRepository brandRepository;
+
     @Autowired
-    private ProductController(ProductService productService, ProductCategoryService productCategoryService) {
+    private ProductController(ProductService productService, ProductCategoryService productCategoryService, BrandRepository brandRepository) {
         this.productService = productService;
         this.productCategoryService = productCategoryService;
+        this.brandRepository = brandRepository;
     }
 
     @GetMapping
@@ -38,7 +41,7 @@ public class ProductController {
         logger.info("Product list page requested");
 
         model.addAttribute("products", productService.findWithFilters(productSearchFilters));
-        return "products";
+        return "product/products";
     }
 
     @GetMapping("/new")
@@ -47,8 +50,9 @@ public class ProductController {
 
         model.addAttribute("product", new Product());
         model.addAttribute("categories", productCategoryService.findAll());
+        model.addAttribute("brands", brandRepository.findAll());
 
-        return "product_form";
+        return "product/product_form";
     }
 
     @GetMapping("/{id}")
@@ -58,8 +62,9 @@ public class ProductController {
         model.addAttribute("product", productService.findById(id)
                 .orElseThrow(() -> new PageNotFoundException("Product not found.")));
         model.addAttribute("categories", productCategoryService.findAll());
+        model.addAttribute("brands", brandRepository.findAll());
 
-        return "product_form";
+        return "product/product_form";
     }
 
     @PostMapping
@@ -67,7 +72,7 @@ public class ProductController {
         logger.info("Saving product");
 
         if (result.hasErrors())
-            return "product_form";
+            return "product/product_form";
 
         productService.save(product);
         return "redirect:/product";
@@ -80,7 +85,7 @@ public class ProductController {
         model.addAttribute("product", productService.findById(id)
                 .orElseThrow(() -> new PageNotFoundException("Product not found.")));
 
-        return "delete_form";
+        return "product/delete_form";
     }
 
     @GetMapping("/confirmed_deletion")

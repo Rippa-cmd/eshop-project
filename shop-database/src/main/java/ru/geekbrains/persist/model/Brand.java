@@ -1,16 +1,13 @@
-package ru.geekbrains.persist;
+package ru.geekbrains.persist.model;
 
 import org.hibernate.annotations.BatchSize;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Entity
-@Table(name = "category")
-public class ProductCategory {
+@Table(name = "brand")
+public class Brand {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,14 +17,14 @@ public class ProductCategory {
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 
-    @ManyToMany(mappedBy = "categories", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "brand", fetch = FetchType.LAZY)
     @BatchSize(size = 256)
     private List<Product> products;
 
-    public ProductCategory() {
+    public Brand() {
     }
 
-    public ProductCategory(Long id, String name) {
+    public Brand(Long id, String name) {
         this.id = id;
         this.name = name;
     }

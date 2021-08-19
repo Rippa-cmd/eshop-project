@@ -9,8 +9,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.geekbrains.controller.RoleDto;
 import ru.geekbrains.controller.UserDto;
-import ru.geekbrains.persist.Role;
-import ru.geekbrains.persist.User;
+import ru.geekbrains.persist.model.Role;
+import ru.geekbrains.persist.model.User;
 import ru.geekbrains.persist.UserRepository;
 import ru.geekbrains.persist.UserSpecifications;
 

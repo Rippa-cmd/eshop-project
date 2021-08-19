@@ -25,6 +25,16 @@
                     <p class="text-danger" th:if="${#fields.hasErrors('cost')}" th:errors="*{cost}"></p>
                 </div>
                 <div class="form-group">
+                    <label for="brand">Brands</label>
+                    <select multiple class="form-control" id="brand" th:field="*{brand}">
+                        <option value="">No brand</option>
+                        <option th:each="brand : ${brands}"
+                                th:text="${brand.name}"
+                                th:value="${brand.id}"
+                                th:selected="${product.brand == brand}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label for="categories">Categories</label>
                     <select multiple class="form-control" id="categories" th:field="*{categories}">
                         <option value="">No category</option>
@@ -33,13 +43,13 @@
                                 th:value="${category.id}"
                                 th:selected="${product.categories?.contains(category)}"></option>
                     </select>
-<!--                        <select th:field="*{categories}">-->
-<!--                            <option value=""> &#45;&#45; </option>-->
-<!--                            <option th:each="category : ${categories}"-->
-<!--                                    th:value="${category.id}"-->
-<!--                                    th:utext="${category.name}"-->
-<!--                                    th:selected="${product.categories?.contains(category)}"/>-->
-<!--                        </select>-->
+                    <!--                        <select th:field="*{categories}">-->
+                    <!--                            <option value=""> &#45;&#45; </option>-->
+                    <!--                            <option th:each="category : ${categories}"-->
+                    <!--                                    th:value="${category.id}"-->
+                    <!--                                    th:utext="${category.name}"-->
+                    <!--                                    th:selected="${product.categories?.contains(category)}"/>-->
+                    <!--                        </select>-->
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
                 <a class="btn btn-danger" th:href="@{/product}">Cancel</a>

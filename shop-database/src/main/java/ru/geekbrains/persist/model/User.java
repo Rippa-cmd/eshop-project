@@ -1,4 +1,4 @@
-package ru.geekbrains.persist;
+package ru.geekbrains.persist.model;
 
 import org.hibernate.annotations.BatchSize;
 
@@ -18,7 +18,7 @@ public class User {
     @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false)
+    @Column()
     private Integer age;
 
     @Column

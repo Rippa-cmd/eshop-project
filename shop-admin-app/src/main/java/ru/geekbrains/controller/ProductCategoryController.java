@@ -9,8 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import ru.geekbrains.persist.ProductCategory;
-import ru.geekbrains.persist.ProductSpecifications;
+import ru.geekbrains.persist.model.ProductCategory;
 import ru.geekbrains.service.ProductCategorySearchFilters;
 import ru.geekbrains.service.ProductCategoryService;
 import ru.geekbrains.service.ProductService;
@@ -38,7 +37,7 @@ public class ProductCategoryController {
         logger.info("Product categories list page requested");
 
         model.addAttribute("categories", productCategoryService.findWithFilters(productCategorySearchFilters));
-        return "product_categories";
+        return "category/categories";
     }
 
     @GetMapping("/new")
@@ -46,14 +45,14 @@ public class ProductCategoryController {
         logger.info("New product category page requested");
 
         model.addAttribute("category", new ProductCategory());
-        return "category_form";
+        return "category/category_form";
     }
 
     @GetMapping("/{id}")
     public String editProductCategory(@PathVariable("id") Long id, Model model) {
         model.addAttribute("category", productCategoryService.findById(id)
                 .orElseThrow(() -> new PageNotFoundException("Product category not found.")));
-        return "category_form";
+        return "category/category_form";
     }
 
     @PostMapping
@@ -61,7 +60,7 @@ public class ProductCategoryController {
         logger.info("Saving product category");
 
         if (result.hasErrors())
-            return "category_form";
+            return "category/category_form";
 
         productCategoryService.save(productCategory);
         return "redirect:/category";
@@ -74,7 +73,7 @@ public class ProductCategoryController {
         model.addAttribute("category", productCategoryService.findById(id)
                 .orElseThrow(() -> new PageNotFoundException("Product category not found.")));
 
-        return "category_delete_form";
+        return "category/category_delete_form";
     }
 
     @GetMapping("/confirmed_deletion")
