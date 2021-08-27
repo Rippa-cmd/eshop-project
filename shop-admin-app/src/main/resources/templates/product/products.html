@@ -48,6 +48,7 @@
             <table class="table table-bordered my-2">
                 <thead>
                 <tr>
+                    <th scope="col">Pic</th>
                     <th scope="col" th:replace="fragments/sort_headers :: product_sort_header('Id', 'id')"></th>
                     <th scope="col" th:replace="fragments/sort_headers :: product_sort_header('Name', 'name')"></th>
                     <th scope="col" th:replace="fragments/sort_headers :: product_sort_header('Cost', 'cost')"></th>
@@ -58,6 +59,12 @@
                 </thead>
                 <tbody>
                 <tr th:if="${products.hasContent()}" th:each="product : ${products.content}">
+                    <th th:if="${!#lists.isEmpty(product.pictures)}">
+                        <img th:src="@{/picture/{pictureId}(pictureId=${product.pictures[0]})}" height="50px">
+                    </th>
+                    <th th:unless="${!#lists.isEmpty(product.pictures)}">
+                        <i class="far fa-trash-alt"></i>
+                    </th>
                     <th scope="row" th:text="${product.id}">1</th>
                     <td th:text="${product.name}">Shoes</td>
                     <td th:text="${product.cost}">100</td>

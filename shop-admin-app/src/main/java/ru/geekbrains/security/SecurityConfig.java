@@ -16,8 +16,8 @@ public class SecurityConfig {
                            PasswordEncoder passwordEncoder,
                            UserAuthService userAuthService) throws Exception {
         auth.inMemoryAuthentication()
-                .withUser("mem_root")
-                .password(passwordEncoder.encode("password"))
+                .withUser("root")
+                .password(passwordEncoder.encode(""))
                 .roles("SUPER_ADMIN")
                 .and()
                 .withUser("mem_guest")

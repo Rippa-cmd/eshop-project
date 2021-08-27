@@ -10,7 +10,7 @@
 <div class="container">
     <div class="row py-2">
         <div class="col-12">
-            <form th:action="@{/product}" method="post" th:object="${product}">
+            <form th:action="@{/product}" method="post" th:object="${product}" enctype="multipart/form-data">
                 <input type="hidden" id="id" th:field="*{id}">
                 <div class="form-group">
                     <label>Product name</label>
@@ -50,10 +50,32 @@
                     <!--                                    th:utext="${category.name}"-->
                     <!--                                    th:selected="${product.categories?.contains(category)}"/>-->
                     <!--                        </select>-->
+                    <div class="form-group">
+                        <label for="newPictures">Product pictures</label>
+                        <input type="file" multiple class="form-control" id="newPictures" th:field="*{newPictures}"
+                               placeholder="Upload new product picture">
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
                 <a class="btn btn-danger" th:href="@{/product}">Cancel</a>
             </form>
+        </div>
+
+
+        <div class="col-12">
+            <tbody>
+            <tr th:if="${!#lists.isEmpty(product.pictures)}" th:each="pictureId : ${product.pictures}">
+                <td>
+                    <a th:href="@{/picture/{pictureId}(pictureId=${pictureId})}">
+                        <img th:src="@{/picture/{pictureId}(pictureId=${pictureId})}" height="150px">
+                    </a>
+                </td>
+                <td>
+                    <a class="btn btn-danger" th:href="@{/picture/delete_{id}(id=${pictureId})}"><i
+                            class="far fa-trash-alt"></i></a>
+                </td>
+            </tr>
+            </tbody>
         </div>
     </div>
 </div>

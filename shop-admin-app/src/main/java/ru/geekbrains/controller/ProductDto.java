@@ -1,53 +1,39 @@
-package ru.geekbrains.persist.model;
+package ru.geekbrains.controller;
 
-import org.hibernate.annotations.BatchSize;
+import org.springframework.web.multipart.MultipartFile;
+import ru.geekbrains.persist.model.Brand;
+import ru.geekbrains.persist.model.Picture;
+import ru.geekbrains.persist.model.ProductCategory;
 
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "products")
-public class Product {
+public class ProductDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
     private BigDecimal cost;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "products_categories",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id"))
-    @BatchSize(size = 256)
     private List<ProductCategory> categories;
 
-    @ManyToOne
     private Brand brand;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private List<Picture> pictures = new ArrayList<>();
+    private List<Long> pictures = new ArrayList<>();
 
-    public Product() {
+    private MultipartFile[] newPictures;
+
+    public ProductDto() {
     }
 
-    public Product(Long id, String name, BigDecimal cost, List<ProductCategory> categories, Brand brand) {
+    public ProductDto(Long id, String name, BigDecimal cost, List<ProductCategory> categories, Brand brand) {
         this.id = id;
         this.name = name;
         this.cost = cost;
         this.categories = categories;
         this.brand = brand;
-    }
-
-    public Product(String name, BigDecimal cost) {
-        this.name = name;
-        this.cost = cost;
     }
 
     public Long getId() {
@@ -74,7 +60,7 @@ public class Product {
         this.cost = cost;
     }
 
-    public List<ProductCategory>  getCategories() {
+    public List<ProductCategory> getCategories() {
         return categories;
     }
 
@@ -90,11 +76,19 @@ public class Product {
         this.brand = brand;
     }
 
-    public List<Picture> getPictures() {
+    public List<Long> getPictures() {
         return pictures;
     }
 
-    public void setPictures(List<Picture> pictures) {
+    public void setPictures(List<Long> pictures) {
         this.pictures = pictures;
+    }
+
+    public MultipartFile[] getNewPictures() {
+        return newPictures;
+    }
+
+    public void setNewPictures(MultipartFile[] newPictures) {
+        this.newPictures = newPictures;
     }
 }

@@ -1,5 +1,6 @@
 package ru.geekbrains.controller;
 
+import javassist.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ru.geekbrains.persist.BrandRepository;
-import ru.geekbrains.persist.model.Product;
 import ru.geekbrains.service.ProductCategoryService;
 import ru.geekbrains.service.ProductSearchFilters;
 import ru.geekbrains.service.ProductService;
@@ -48,7 +48,7 @@ public class ProductController {
     public String newProductForm(Model model) {
         logger.info("New product page requested");
 
-        model.addAttribute("product", new Product());
+        model.addAttribute("product", new ProductDto());
         model.addAttribute("categories", productCategoryService.findAll());
         model.addAttribute("brands", brandRepository.findAll());
 
@@ -68,13 +68,13 @@ public class ProductController {
     }
 
     @PostMapping
-    public String update(@Valid Product product, BindingResult result) {
+    public String update(@Valid @ModelAttribute("product") ProductDto productDto, BindingResult result) throws NotFoundException {
         logger.info("Saving product");
 
         if (result.hasErrors())
             return "product/product_form";
 
-        productService.save(product);
+        productService.save(productDto);
         return "redirect:/product";
     }
 
