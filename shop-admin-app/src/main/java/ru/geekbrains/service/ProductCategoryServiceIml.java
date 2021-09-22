@@ -69,6 +69,10 @@ public class ProductCategoryServiceIml implements ProductCategoryService {
 
     @Override
     public void deleteById(Long id) {
-        productCategoryRepository.deleteById(id);
+        ProductCategory category = productCategoryRepository.findById(id).get();
+        if (category.getProducts().size() == 0)
+            productCategoryRepository.delete(category);
+        else
+            productCategoryRepository.deleteById(id);
     }
 }
