@@ -31,7 +31,7 @@ export class ProductGalleryComponent implements OnInit {
       })
   }
 
-  private selectedPage(pageNumber: number) {
+  goToPage(pageNumber: number) {
     this.productService.findPage(pageNumber)
       .then(res => {
         this.products = res.content;
