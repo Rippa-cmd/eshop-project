@@ -42,7 +42,7 @@ public class UserController {
         logger.info("User list page requested");
 
         model.addAttribute("users", userService.findWithFilters(userSearchFilters));
-        return "users";
+        return "user/users";
     }
 
     @GetMapping("/new")
@@ -51,7 +51,7 @@ public class UserController {
 
         model.addAttribute("userDto", new UserDto());
         model.addAttribute("roles", roleService.findAll());
-        return "user_form";
+        return "user/user_form";
     }
 
     @GetMapping("/{id}")
@@ -59,7 +59,7 @@ public class UserController {
         model.addAttribute("userDto", userService.findById(id)
                 .orElseThrow(() -> new PageNotFoundException("User not found.")));
         model.addAttribute("roles", roleService.findAll());
-        return "user_form";
+        return "user/user_form";
     }
 
     @PostMapping
@@ -68,19 +68,19 @@ public class UserController {
 
         if (result.hasErrors()) {
             model.addAttribute("roles", roleService.findAll());
-            return "user_form";
+            return "user/user_form";
         }
 
         if (!userDto.checkPasswords()) {
             model.addAttribute("roles", roleService.findAll());
             result.rejectValue("matchPassword", "matchPassword", "Пароли не совпадают");
-            return "user_form";
+            return "user/user_form";
         }
 
         if (userDto.getId()==null && userService.isUsernameBusy(userDto.getUsername())) {
             model.addAttribute("roles", roleService.findAll());
             result.rejectValue("username", "username", "Логин уже занят");
-            return "user_form";
+            return "user/user_form";
         }
 
         userService.save(userDto);
@@ -94,7 +94,7 @@ public class UserController {
         model.addAttribute("user", userService.findById(id)
                 .orElseThrow(() -> new PageNotFoundException("User not found.")));
 
-        return "user_delete_form";
+        return "user/user_delete_form";
     }
 
     @GetMapping("/confirmed_deletion")

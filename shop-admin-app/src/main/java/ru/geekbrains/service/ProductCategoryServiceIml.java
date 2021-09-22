@@ -7,6 +7,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import ru.geekbrains.persist.*;
+import ru.geekbrains.persist.model.ProductCategory;
 
 import java.util.List;
 import java.util.Optional;

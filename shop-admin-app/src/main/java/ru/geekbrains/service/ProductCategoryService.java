@@ -1,8 +1,7 @@
 package ru.geekbrains.service;
 
 import org.springframework.data.domain.Page;
-import ru.geekbrains.persist.Product;
-import ru.geekbrains.persist.ProductCategory;
+import ru.geekbrains.persist.model.ProductCategory;
 
 import java.util.List;
 import java.util.Optional;

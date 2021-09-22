@@ -1,6 +1,7 @@
 package ru.geekbrains.persist;
 
 import org.springframework.data.jpa.domain.Specification;
+import ru.geekbrains.persist.model.Product;
 
 import javax.persistence.criteria.JoinType;
 import java.math.BigDecimal;

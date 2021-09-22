@@ -52,6 +52,7 @@
                     <th scope="col" th:replace="fragments/sort_headers :: product_sort_header('Name', 'name')"></th>
                     <th scope="col" th:replace="fragments/sort_headers :: product_sort_header('Cost', 'cost')"></th>
                     <th scope="col">Categories</th>
+                    <th scope="col">Brand</th>
                     <th scope="col" sec:authorize="hasAnyRole('SUPER_ADMIN')">Actions</th>
                 </tr>
                 </thead>
@@ -66,6 +67,8 @@
                         </ul>
                     </td>
                     <td th:unless="${!#lists.isEmpty(product.categories)}">*No category</td>
+                    <td th:if="${product.brand != null}" th:text="${product.brand.name}">No brand</td>
+                    <td th:unless="${product.brand != null}">No brand</td>
                     <td sec:authorize="hasAnyRole('SUPER_ADMIN')">
                         <a class="btn btn-success" th:href="@{/product/{id}(id = ${product.id})}"><i
                                 class="fas fa-edit"></i></a>
