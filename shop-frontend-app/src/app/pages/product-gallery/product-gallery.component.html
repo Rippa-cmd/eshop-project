@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="row py-2">
+
+    <div class="col-md-3 col-xs-12">
+      <app-product-filter></app-product-filter>
+    </div>
+
+    <div class="col-md-9 col-xs-12">
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+
+        <div *ngFor="let prod of products" class="col">
+          <div class="card">
+            <div *ngIf="prod.pictures.length > 0; else elseBlock">
+              <img class="card-img-top" src="http://localhost:8080/api/v1/picture/{{prod.pictures[0]}}"
+                   alt="Card image cap">
+            </div>
+            <ng-template #elseBlock>
+              <span class="fa fa-file-image-o fa-5x" aria-hidden="true">*No photo</span>
+            </ng-template>
+            <div class="card-body">
+              <h5 class="card-title">{{prod.name}}</h5>
+              <p class="card-text">Short description of product</p>
+              <a routerLink="/product/{{prod.id}}" class="btn btn-primary">View</a>
+              <a href="#" class="btn btn-primary">Add to card</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <app-pagination (goToPageEvent)="goToPage($event)"></app-pagination>
+
+    </div>
+
+  </div>
+</div>
