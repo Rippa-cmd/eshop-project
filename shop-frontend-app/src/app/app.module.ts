@@ -10,6 +10,8 @@ import { HttpClientModule } from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
 import {PaginationComponent} from "./components/pagination/pagination.component";
 import { ProductFilterComponent } from './components/product-filter/product-filter.component';
+import { ProductListComponent } from './components/product-list/product-list.component';
+import { CartPageComponent } from './pages/cart-page/cart-page.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { ProductFilterComponent } from './components/product-filter/product-filt
     FooterComponent,
     ProductGalleryComponent,
     PaginationComponent,
-    ProductFilterComponent
+    ProductFilterComponent,
+    ProductListComponent,
+    CartPageComponent
   ],
   imports: [
     BrowserModule,

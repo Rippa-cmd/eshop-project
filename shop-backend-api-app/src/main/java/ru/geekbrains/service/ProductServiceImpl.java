@@ -15,6 +15,7 @@ import ru.geekbrains.persist.ProductSpecifications;
 import ru.geekbrains.persist.model.Picture;
 import ru.geekbrains.persist.model.Product;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,55 +32,35 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<ProductDto> findWithFilters(ProductSearchFilters productSearchFilters) {
+    public Page<ProductDto> findAll(Optional<Long> categoryId, Optional<String> namePattern,
+                                    Optional<BigDecimal> minPrice, Optional<BigDecimal> maxPrice,
+                                    Optional<String> category, Integer page, Integer size, String sortField) {
         Specification<Product> spec = Specification.where(null);
-        Sort sortConfiguration;
-
-        if (productSearchFilters.getCategoryFilter() != null && !productSearchFilters.getCategoryFilter().isBlank()) {
-            if (productSearchFilters.getCategoryFilter().equals("No category")) {
-                spec = spec.and(ProductSpecifications.emptyProductCategoryPrefix());
-            } else {
-                spec = spec.and(ProductSpecifications.productCategoryPrefix(productSearchFilters.getCategoryFilter()));
-            }
+//        if (categoryId.isPresent() && categoryId.get() != -1) {
+//            spec = spec.and(ProductSpecifications.productCategoryPrefix(categoryId.get()));
+//        }
+        if (namePattern.isPresent()) {
+            spec = spec.and(ProductSpecifications.productNamePrefix(namePattern.get()));
         }
-
-        if (productSearchFilters.getProductNameFilter() != null && !productSearchFilters.getProductNameFilter().isBlank()) {
-            spec = spec.and(ProductSpecifications.productNamePrefix(productSearchFilters.getProductNameFilter()));
+        if (minPrice.isPresent()) {
+            spec = spec.and(ProductSpecifications.minCost(minPrice.get()));
         }
-
-        if (productSearchFilters.getMinCostFilter() != null) {
-            spec = spec.and(ProductSpecifications.minCost(productSearchFilters.getMinCostFilter()));
+        if (maxPrice.isPresent()) {
+            if (maxPrice.get().compareTo(BigDecimal.ZERO) > 0)
+                spec = spec.and(ProductSpecifications.maxCost(maxPrice.get()));
         }
-
-        if (productSearchFilters.getMaxCostFilter() != null) {
-            spec = spec.and(ProductSpecifications.maxCost(productSearchFilters.getMaxCostFilter()));
+        if (category.isPresent() && !category.get().isBlank()) {
+            spec = spec.and(ProductSpecifications.productCategoryPrefix(category.get()));
         }
-
-        if (productSearchFilters.getSize() == null || productSearchFilters.getSize() <= 0)
-            productSearchFilters.setSize(5);
-
-        if (productSearchFilters.getPage() == null || productSearchFilters.getPage() <= 0)
-            productSearchFilters.setPage(1);
-
-        if (productSearchFilters.getSortField() != null && !productSearchFilters.getSortField().isBlank())
-            sortConfiguration = Sort.by(productSearchFilters.getSortField());
-        else
-            sortConfiguration = Sort.by("id");
-
-        if ("desc".equals(productSearchFilters.getSortDirection()))
-            sortConfiguration = sortConfiguration.descending();
-
-        return productRepository.findAll(spec, PageRequest.of(productSearchFilters.getPage() - 1,
-                productSearchFilters.getSize(), sortConfiguration))
+        return productRepository.findAll(spec, PageRequest.of(page, size, Sort.by(sortField)))
                 .map(product -> {
                     ProductDto productDto = new ProductDto(product.getId(),
                             product.getName(),
                             product.getCost(),
                             product.getCategories().stream()
-                            .map(productCategory -> new CategoryDto(productCategory.getId(), productCategory.getName()))
-                            .collect(Collectors.toList()),
-                            product.getBrand()
-                    );
+                                    .map(productCategory -> new CategoryDto(productCategory.getId(), productCategory.getName()))
+                                    .collect(Collectors.toList()),
+                            product.getBrand());
                     if (product.getPictures().size() != 0)
                         productDto.setPictures(product.getPictures().stream()
                                 .map(Picture::getId)
@@ -87,6 +68,7 @@ public class ProductServiceImpl implements ProductService {
                         );
                     return productDto;
                 });
+
     }
 
     @Override

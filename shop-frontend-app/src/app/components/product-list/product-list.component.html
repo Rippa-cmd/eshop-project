@@ -1,0 +1,22 @@
+<div class="row row-cols-1 row-cols-md-3 g-4">
+
+  <div *ngFor="let prod of products" class="col">
+    <div class="card">
+      <div *ngIf="prod.pictures.length > 0; else elseBlock">
+        <img class="card-img-top" src="http://localhost:8080/api/v1/picture/{{prod.pictures[0]}}"
+             alt="Card image cap"  width="100" height="200">
+      </div>
+      <ng-template #elseBlock>
+        <span class="fa fa-file-image-o fa-5x" aria-hidden="true">*No photo</span>
+      </ng-template>
+      <div class="card-body">
+        <h5 class="card-title">{{prod.name}}</h5>
+        <p class="card-text">Short description of product</p>
+        <p class="card-text">Price: {{prod.cost}}</p>
+        <a routerLink="/product/{{prod.id}}" class="btn btn-primary">View</a>
+        <a (click)="addToCart(prod.id)" class="btn btn-primary">Add to card</a>
+      </div>
+    </div>
+  </div>
+
+</div>
