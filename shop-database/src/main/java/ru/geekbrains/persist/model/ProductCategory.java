@@ -21,6 +21,8 @@ public class ProductCategory {
     @BatchSize(size = 256)
     private List<Product> products;
 
+
+
     public ProductCategory() {
     }
 

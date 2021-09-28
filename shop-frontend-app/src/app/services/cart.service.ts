@@ -17,7 +17,7 @@ export class CartService {
   }
 
   public addToCart(dto: AddLineItemDto) {
-    return this.http.post('/api/v1/cart/add', dto);
+    return this.http.post<any>('/api/v1/cart/add', dto);
   }
 
   public deleteLineItem(product: LineItem) : Observable<AllCartDto> {

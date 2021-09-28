@@ -1,3 +1,4 @@
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
     <a class="navbar-brand" routerLink="">Navbar</a>
@@ -26,6 +27,10 @@
              routerLink="/order">Orders</a>
         </li>
       </ul>
+      <form class="d-flex">
+        <button *ngIf="!auth.isAuthenticated()" class="btn btn-outline-success" routerLink="/login">Login</button>
+        <button *ngIf="auth.isAuthenticated()" class="btn btn-outline-success" (click)="logout()">Logout</button>
+      </form>
     </div>
   </div>
 </nav>

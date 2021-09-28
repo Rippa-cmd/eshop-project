@@ -34,6 +34,9 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Picture> pictures = new ArrayList<>();
 
+    @ManyToMany(mappedBy = "products", fetch = FetchType.LAZY)
+    private List<ProductOrder> product_orders;
+
     public Product() {
     }
 
@@ -96,5 +99,13 @@ public class Product {
 
     public void setPictures(List<Picture> pictures) {
         this.pictures = pictures;
+    }
+
+    public List<ProductOrder> getProduct_orders() {
+        return product_orders;
+    }
+
+    public void setProduct_orders(List<ProductOrder> product_orders) {
+        this.product_orders = product_orders;
     }
 }

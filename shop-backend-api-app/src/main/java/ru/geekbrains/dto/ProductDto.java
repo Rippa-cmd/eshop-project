@@ -1,5 +1,7 @@
 package ru.geekbrains.dto;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import ru.geekbrains.persist.model.Brand;
 import ru.geekbrains.persist.model.ProductCategory;
 
@@ -7,12 +9,15 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
 public class ProductDto {
 
     private Long id;
 
     private String name;
 
+    @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXTERNAL_PROPERTY, property = "type")
+    @JsonSubTypes({ @JsonSubTypes.Type(name = "BIG_DECIMAL", value = BigDecimal.class) })
     private BigDecimal cost;
 
     private List<CategoryDto> categories;
