@@ -2,13 +2,10 @@ package ru.geekbrains.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.geekbrains.dto.CategoryDto;
 import ru.geekbrains.dto.OrderDto;
-import ru.geekbrains.dto.ProductDto;
 import ru.geekbrains.persist.ProductOrderRepository;
 import ru.geekbrains.persist.ProductRepository;
 import ru.geekbrains.persist.model.ProductOrder;
-import ru.geekbrains.service.dto.LineItem;
 
 import java.util.List;
 import java.util.stream.Collectors;
