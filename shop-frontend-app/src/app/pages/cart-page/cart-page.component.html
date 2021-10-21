@@ -13,17 +13,10 @@
       </thead>
       <tbody>
 
-      <tr *ngFor="let lineItem of content?.lineItems">
-        <th scope="row">1</th>
-        <td>{{lineItem.productDto.name}}</td>
-        <td>
-          <input type="number" min="0" value="{{lineItem.qty}}" [(ngModel)]="lineItem.qty" class="form-control w-25"/>
-        </td>
-        <td>{{lineItem.itemTotal}}</td>
-        <td>
-          <a class="btn btn-success me-2" (click)="changeQty(lineItem)"><i class="fas fa-check-circle"></i></a>
-          <a class="btn btn-danger" (click)="removeProduct(lineItem)"><i class="far fa-trash-alt"></i></a>
-        </td>
+      <tr app-cart-item
+          *ngFor="let lineItem of content?.lineItems"
+          [lineItem]="lineItem"
+          (updated)="cartUpdated()">
       </tr>
 
       </tbody>

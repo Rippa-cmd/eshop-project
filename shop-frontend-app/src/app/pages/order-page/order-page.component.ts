@@ -3,6 +3,7 @@ import {OrderService} from "../../services/order.service";
 import {Order} from "../../model/order";
 import {ProductService} from "../../services/product.service";
 import {LineItem} from "../../model/line-item";
+import {OrderStatusService} from "../../services/order-status.service";
 
 export const ORDERS_URL = 'order';
 
@@ -20,7 +21,8 @@ export class OrderPageComponent implements OnInit {
   viewProducts: boolean = false;
 
   constructor(private orderService: OrderService,
-              private productService: ProductService) {
+              private productService: ProductService,
+              private orderStatusService: OrderStatusService) {
   }
 
   ngOnInit(): void {
@@ -30,7 +32,9 @@ export class OrderPageComponent implements OnInit {
         },
         error => {
           console.log(error);
-        })
+        });
+    this.orderStatusService.onMessage('/order_out/order')
+      .subscribe(msg => console.log(`New message with status ${msg.state}`))
   }
 
   public orderedProducts(order: Order) {

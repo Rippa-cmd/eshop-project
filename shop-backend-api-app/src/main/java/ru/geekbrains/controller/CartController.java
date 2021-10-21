@@ -47,12 +47,19 @@ public class CartController {
     }
 
     @PostMapping(path="/changeQty", produces = "application/json", consumes = "application/json")
-    public void changeQty(@RequestBody AddLineItemDto addLineItemDto) {
+    public List<LineItem> changeQty(@RequestBody AddLineItemDto addLineItemDto) {
         logger.info("Changing LineItem qty. ProductId = {}, qty = {}", addLineItemDto.getProductId(), addLineItemDto.getQty());
+
+        if (addLineItemDto.getQty() < 1) {
+            removeProduct(addLineItemDto);
+            return null;
+        }
         ProductDto productDto = productService.findById(addLineItemDto.getProductId())
                 .orElseThrow(RuntimeException::new);
 
         cartService.changeProductQty(productDto, addLineItemDto.getColor(), addLineItemDto.getMaterial(), addLineItemDto.getQty());
+
+        return cartService.getLineItems();
     }
 
     @PostMapping(path ="/delete", produces = "application/json", consumes = "application/json")
