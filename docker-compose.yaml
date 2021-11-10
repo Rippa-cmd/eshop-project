@@ -3,12 +3,21 @@ services:
   cloud-config:
     image: registry.heroku.com/geek-spring-cloud-config/web:latest
     ports:
-      - 8888:8888
+      - 8888
+
+  shop-frontend-app:
+    image: shop-frontend-app
+    ports:
+      - 8080:80
+    depends_on:
+      - shop-admin-app
+      - shop-backend-api-app
+      - picture-service-app
 
   shop-admin-app:
     image: registry.heroku.com/geek-shop-admin-app/web:latest
     ports:
-      - 8081:8081
+      - 8080
     volumes:
       - file-storage:/var/storage
     command: bash -c "/apps/wait-for-service.sh db 3306 && /apps/wait-for-service.sh cloud-config 8888 && /apps/entrypoint.sh"
@@ -19,7 +28,7 @@ services:
   shop-backend-api-app:
     image: registry.heroku.com/geek-shop-backend-api-app/web:latest
     ports:
-      - 8083:8083
+      - 8080
     volumes:
       - file-storage:/var/storage
     command: bash -c "/apps/wait-for-service.sh db 3306 && /apps/wait-for-service.sh cloud-config 8888 && /apps/entrypoint.sh"
@@ -28,16 +37,16 @@ services:
       - cloud-config
       - shop-delivery-service
 
-#  picture-service-app:
-#    image: registry.heroku.com/geek-picture-service-app/web:latest
-#    ports:
-#      - 8082:8082
-#    volumes:
-#      - file-storage:/var/storage
-#    command: bash -c "/apps/wait-for-service.sh db 3306 && /apps/wait-for-service.sh cloud-config 8888 && /apps/entrypoint.sh"
-#    depends_on:
-#      - db
-#      - cloud-config
+  picture-service-app:
+    image: registry.heroku.com/geek-picture-service/web:latest
+    ports:
+      - 8080
+    volumes:
+      - file-storage:/var/storage
+    command: bash -c "/apps/wait-for-service.sh db 3306 && /apps/wait-for-service.sh cloud-config 8888 && /apps/entrypoint.sh"
+    depends_on:
+      - db
+      - cloud-config
 
   shop-delivery-service:
     image: registry.heroku.com/geek-shop-delivery-service/web:latest
@@ -55,7 +64,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: "root"
     ports:
-      - 3307:3306
+      - 3306
     volumes:
       - mysql-data:/var/lib/mysql
 
