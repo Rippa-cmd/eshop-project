@@ -4,6 +4,7 @@ import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "category")
@@ -53,5 +54,19 @@ public class ProductCategory {
 
     public void setProducts(List<Product> products) {
         this.products = products;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductCategory category = (ProductCategory) o;
+        return id.equals(category.id) &&
+                name.equals(category.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 }
