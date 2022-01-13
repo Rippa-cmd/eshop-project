@@ -1,7 +1,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" routerLink="">Navbar</a>
+    <a class="navbar-brand" routerLink="">EShop</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -28,8 +28,10 @@
         </li>
       </ul>
       <form class="d-flex">
-        <button *ngIf="!auth.isAuthenticated()" class="btn btn-outline-success" routerLink="/login">Login</button>
-        <button *ngIf="auth.isAuthenticated()" class="btn btn-outline-success" (click)="logout()">Logout</button>
+        <button *ngIf="!auth.isAuthenticated()" class="btn btn-outline-success" id="btn-login-page" routerLink="/login">Login</button>
+        <button *ngIf="auth.isAuthenticated()" class="btn btn-outline-success" id="btn-logout" (click)="logout()">Logout
+          <span id="dd_user">{{auth.getUsername()}}</span>
+        </button>
       </form>
     </div>
   </div>

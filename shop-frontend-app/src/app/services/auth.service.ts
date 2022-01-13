@@ -48,6 +48,14 @@ export class AuthService {
     }
   }
 
+  // @ts-ignore
+  getUsername(): String {
+    if (this.isAuthenticated()) {
+      // @ts-ignore
+      return this.currentUser.username;
+    }
+  }
+
   public isAuthenticated(): boolean {
     return !!this.currentUser;
   }

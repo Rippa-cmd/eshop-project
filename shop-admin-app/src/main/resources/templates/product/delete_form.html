@@ -14,9 +14,9 @@
                 <label>Are you sure want to delete this product?</label>
                 <th type="text" id="name" th:text="${product.name}"></th>
             </div>
-            <a type="submit" class="btn btn-primary"
+            <a type="submit" class="btn btn-primary" id="btn-submit-deleting"
                th:href="@{/product/confirmed_deletion(id = ${product.id})}">Submit</a>
-            <a class="btn btn-danger" th:href="@{/product}">Cancel</a>
+            <a class="btn btn-danger" id="btn-cancel-deleting" th:href="@{/product}">Cancel</a>
         </div>
     </div>
 </div>
