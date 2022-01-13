@@ -3,15 +3,15 @@ package ru.geekbrains.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.geekbrains.dto.OrderDto;
-import ru.geekbrains.dto.ProductDto;
-import ru.geekbrains.persist.model.Product;
 import ru.geekbrains.service.CartService;
 import ru.geekbrains.service.OrderService;
 
 import java.util.List;
 
+@PreAuthorize("isAuthenticated()")
 @RequestMapping("/order")
 @RestController
 public class OrderController {

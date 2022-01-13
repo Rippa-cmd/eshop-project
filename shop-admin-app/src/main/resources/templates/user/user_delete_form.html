@@ -14,7 +14,7 @@
                 <label>Are you sure want to delete this user?</label>
                 <th type="text" id="username" th:text="${user.username}"></th>
             </div>
-            <a type="submit" class="btn btn-primary"
+            <a type="submit" class="btn btn-primary" id="btn-submit-deleting"
                th:href="@{/user/confirmed_deletion(id = ${user.id})}">Submit</a>
             <a class="btn btn-danger" th:href="@{/user}">Cancel</a>
         </div>

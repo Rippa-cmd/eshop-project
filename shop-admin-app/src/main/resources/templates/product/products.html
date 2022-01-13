@@ -12,7 +12,7 @@
 <div class="container">
     <div class="row py-2">
         <div class="col-12" sec:authorize="hasAnyRole('SUPER_ADMIN')">
-            <a class="btn btn-primary" th:href="@{/product/new}">Add Product</a>
+            <a class="btn btn-primary" id="btn-new-product" th:href="@{/product/new}">Add Product</a>
         </div>
 
         <div class="col-12 mt-3">
@@ -40,7 +40,7 @@
                            th:value="${param.categoryFilter}"
                            name="categoryFilter" placeholder="Category filter">
                 </div>
-                <button type="submit" class="btn btn-primary mb-2">Apply</button>
+                <button type="submit" id="btn-apply-filter" class="btn btn-primary mb-2">Apply</button>
             </form>
         </div>
 
@@ -77,9 +77,9 @@
                     <td th:if="${product.brand != null}" th:text="${product.brand.name}">No brand</td>
                     <td th:unless="${product.brand != null}">No brand</td>
                     <td sec:authorize="hasAnyRole('SUPER_ADMIN')">
-                        <a class="btn btn-success" th:href="@{/product/{id}(id = ${product.id})}"><i
+                        <a class="btn btn-success" id="btn-edit" th:href="@{/product/{id}(id = ${product.id})}"><i
                                 class="fas fa-edit"></i></a>
-                        <a class="btn btn-danger" th:href="@{/product/delete_{id}(id = ${product.id})}"><i
+                        <a class="btn btn-danger" id="btn-delete" th:href="@{/product/delete_{id}(id = ${product.id})}"><i
                                 class="far fa-trash-alt"></i></a>
                     </td>
                 </tr>
