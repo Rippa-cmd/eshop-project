@@ -6,7 +6,7 @@ import {Page} from "../../model/page";
   templateUrl: './pagination.component.html',
   styleUrls: ['./pagination.component.scss']
 })
-export class PaginationComponent implements OnInit {
+export class PaginationComponent implements OnInit, OnChanges {
 
   @Input() page? : Page;
 
@@ -19,9 +19,16 @@ export class PaginationComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.page?.totalPages);
-    this.numbers = Array.from(Array(this.page?.totalPages).keys());
+  }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log("On pagination updated")
+    console.log(changes);
+    console.log(this.page);
+    if (this.page != null) {
+      this.numbers = Array.from(Array(this.page.totalPages).keys());
+      this.pageNumber = this.page.number + 1;
+    }
   }
 
   goToPage(page: number) {

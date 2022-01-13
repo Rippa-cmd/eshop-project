@@ -1,24 +1,22 @@
-<label for="nameFilter" class="form-label">Categories</label>
-  <ul class="list-group mb-3">
-    <li class="list-group-item active">Category 1</li>
-    <li class="list-group-item">Category 2</li>
-    <li class="list-group-item">Category 3</li>
-    <li class="list-group-item">Category 4</li>
-    <li class="list-group-item">Category 5</li>
-  </ul>
+<label for="namePattern" class="form-label">Categories</label>
+<ul class="categories" *ngFor="let category of categories">
+  <li class="page-item" [class.active]="selectedCat == category">
+    <a class="page-link" (click)="selectCategory(category)">{{category.name}}</a>
+  </li>
+</ul>
 
-  <form>
-    <label for="nameFilter" class="form-label">Name</label>
-    <div class="input-group mb-3">
-      <input type="text" class="form-control" id="nameFilter" placeholder="Name" aria-label="Name">
-    </div>
+<form (ngSubmit)="applyFilter()">
+  <label for="namePattern" class="form-label">Name</label>
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" name="namePattern" id="namePattern" placeholder="Name" [(ngModel)]="productFilter.namePattern" aria-label="Name">
+  </div>
 
-    <label for="priceFilter" class="form-label">Price</label>
-    <div class="input-group mb-3" id="priceFilter">
-      <input type="number" class="form-control" placeholder="From" aria-label="From">
-      <span class="input-group-text">-</span>
-      <input type="number" class="form-control" placeholder="To" aria-label="To">
-    </div>
+  <label for="priceFilter" class="form-label">Price</label>
+  <div class="input-group mb-3" id="priceFilter">
+    <input type="number" min="0" class="form-control" name="minPrice" id="minPrice" placeholder="From" [(ngModel)]="productFilter.minPrice" aria-label="From">
+    <span class="input-group-text">-</span>
+    <input type="number" min="0" class="form-control" name="maxPrice" id="maxPrice" [(ngModel)]="productFilter.maxPrice" placeholder="To" aria-label="To">
+  </div>
 
-    <button class="btn btn-primary" type="submit">Apply</button>
-  </form>
+  <button class="btn btn-primary" type="submit">Apply</button>
+</form>

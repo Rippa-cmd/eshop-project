@@ -34,4 +34,16 @@
         <tagDatabase tag="v-3.0"/>
     </changeSet>
 
+    <include file="v-4.0/root.changelog.v-4.0.xml" relativeToChangelogFile="true"/>
+
+    <changeSet id="4000" author="Rippa-cmd">
+        <tagDatabase tag="v-4.0"/>
+    </changeSet>
+
+    <include file="v-4.1/root.changelog.v-4.1.xml" relativeToChangelogFile="true"/>
+
+    <changeSet id="4100" author="Rippa-cmd">
+        <tagDatabase tag="v-4.1"/>
+    </changeSet>
+
 </databaseChangeLog>

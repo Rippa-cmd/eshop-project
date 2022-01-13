@@ -122,15 +122,17 @@ public class ProductServiceImpl implements ProductService {
 
         if (productDto.getNewPictures() != null) {
             for (MultipartFile newPicture : productDto.getNewPictures()) {
-                try {
-                    product.getPictures().add(new Picture(null,
-                            newPicture.getOriginalFilename(),
-                            newPicture.getContentType(),
-                            pictureService.createPicture(newPicture.getBytes()),
-                            product
-                    ));
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+                if (!("application/octet-stream").equals(newPicture.getContentType())) {
+                    try {
+                        product.getPictures().add(new Picture(null,
+                                newPicture.getOriginalFilename(),
+                                newPicture.getContentType(),
+                                pictureService.createPicture(newPicture.getBytes()),
+                                product
+                        ));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         }

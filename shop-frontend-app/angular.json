@@ -1,5 +1,8 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": "e654eb5f-9974-442b-bcf3-6e0b29e3a806"
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
@@ -20,6 +23,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": ["sockjs-client"],
             "outputPath": "dist/shop-frontend-app",
             "index": "src/index.html",
             "main": "src/main.ts",
