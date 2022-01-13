@@ -26,28 +26,35 @@ export class CartPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.cartService.findAll()
-      .subscribe(res => {
+    this.cartUpdated();
+  }
+
+  cartUpdated() {
+    this.cartService.findAll().subscribe(
+      res => {
         this.content = res;
-      });
+      }
+    )
   }
+  //
+  //
+  // removeProduct(lineItem: LineItem) {
+  //   this.cartService.deleteLineItem(lineItem).subscribe(res => {
+  //       this.content = res;
+  //     },
+  //     err => {
+  //       console.log(`Can't load products ${err}`);
+  //     });
+  // }
 
-
-  removeProduct(lineItem: LineItem) {
-    this.cartService.deleteLineItem(lineItem).subscribe(res => {
-        this.content = res;
-      },
-      err => {
-        console.log(`Can't load products ${err}`);
-      });
-  }
-
-  changeQty(lineItem: LineItem) {
-    this.cartService.changeQty(new AddLineItemDto(lineItem.productId, lineItem.qty, lineItem.color, lineItem.material));
-  }
+  // changeQty(lineItem: LineItem) {
+  //   this.cartService.changeQty(new AddLineItemDto(lineItem.productId, lineItem.qty, lineItem.color, lineItem.material));
+  // }
 
   removeAllProducts() {
-    this.cartService.deleteAll();
+    this.cartService.deleteAll().subscribe(res => {
+      this.content = res;
+    });
   }
 
   createOrder() {

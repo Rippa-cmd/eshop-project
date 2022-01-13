@@ -15,6 +15,7 @@ import { CartPageComponent } from './pages/cart-page/cart-page.component';
 import {UnauthorizedInterceptor} from "./helpers/unauthorized-interceptor";
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { OrderPageComponent } from './pages/order-page/order-page.component';
+import { CartItemComponent } from './components/cart-item/cart-item.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { OrderPageComponent } from './pages/order-page/order-page.component';
     ProductListComponent,
     CartPageComponent,
     LoginPageComponent,
-    OrderPageComponent
+    OrderPageComponent,
+    CartItemComponent
   ],
   imports: [
     BrowserModule,
