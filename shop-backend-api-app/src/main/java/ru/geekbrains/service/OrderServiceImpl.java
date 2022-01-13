@@ -1,11 +1,17 @@
 package ru.geekbrains.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import ru.geekbrains.dto.OrderDto;
 import ru.geekbrains.persist.ProductOrderRepository;
 import ru.geekbrains.persist.ProductRepository;
 import ru.geekbrains.persist.model.ProductOrder;
+import ru.geekbrains.service.dto.OrderMessage;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,14 +19,23 @@ import java.util.stream.Collectors;
 @Service
 public class OrderServiceImpl implements OrderService{
 
+    private static final Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
+
     private final ProductOrderRepository productOrderRepository;
 
     private final ProductRepository productRepository;
 
+    private final RabbitTemplate rabbitTemplate;
+
+    private final SimpMessagingTemplate template;
+
     @Autowired
-    public OrderServiceImpl(ProductOrderRepository productOrderRepository, ProductRepository productRepository) {
+    public OrderServiceImpl(ProductOrderRepository productOrderRepository, ProductRepository productRepository,
+                            RabbitTemplate rabbitTemplate, SimpMessagingTemplate template) {
         this.productOrderRepository = productOrderRepository;
         this.productRepository = productRepository;
+        this.rabbitTemplate = rabbitTemplate;
+        this.template = template;
     }
 
     @Override
@@ -46,5 +61,15 @@ public class OrderServiceImpl implements OrderService{
         .collect(Collectors.toList()));
 
         productOrderRepository.save(order);
+        rabbitTemplate.convertAndSend("order.exchange", "new_order", new OrderMessage(order.getId(), order.getStatus()));
+    }
+
+    @RabbitListener(queues = "processed.order.queue")
+    public void receive(OrderMessage order) {
+        logger.info("Order with id '{}' state change to '{}'", order.getId(), order.getState());
+        ProductOrder productOrder = productOrderRepository.findById(order.getId()).get();
+        productOrder.setStatus(order.getState());
+        productOrderRepository.save(productOrder);
+        template.convertAndSend("/order_out/order", order);
     }
 }
