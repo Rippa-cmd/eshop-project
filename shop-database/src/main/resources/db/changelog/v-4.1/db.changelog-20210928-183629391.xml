@@ -16,12 +16,12 @@
     <changeSet author="Rippa-cmd (generated)" id="1632854195072-3">
         <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="products_product_orders" constraintName="FKjh6ku73n4jim41rv8se2odhs0" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="products" validate="true"/>
     </changeSet>
-    <changeSet author="Rippa-cmd (generated)" id="1632854195072-4">
-        <dropForeignKeyConstraint baseTableName="order_list" constraintName="FK4u6lto5avo1yqilqu2grnk4a6"/>
-    </changeSet>
-    <changeSet author="Rippa-cmd (generated)" id="1632854195072-5">
-        <dropForeignKeyConstraint baseTableName="order_list" constraintName="FK82npqimwjgtf1xhx41agdjxi5"/>
-    </changeSet>
+<!--    <changeSet author="Rippa-cmd (generated)" id="1632854195072-4">-->
+<!--        <dropForeignKeyConstraint baseTableName="order_list" constraintName="FK4u6lto5avo1yqilqu2grnk4a6"/>-->
+<!--    </changeSet>-->
+<!--    <changeSet author="Rippa-cmd (generated)" id="1632854195072-5">-->
+<!--        <dropForeignKeyConstraint baseTableName="order_list" constraintName="FK82npqimwjgtf1xhx41agdjxi5"/>-->
+<!--    </changeSet>-->
     <changeSet author="Rippa-cmd (generated)" id="1632854195072-6">
         <dropTable tableName="order_list"/>
     </changeSet>
